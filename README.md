@@ -3,8 +3,8 @@
 
 # Install
  ```
- git clone
- cd
+ git clone https://github.com/coderpaddy/e-pet-discount-products.git
+ cd e-pet-discount-products
  # You may want to create a virtual environment
  # python3 -m venv env
  pip install -r requirements.txt
