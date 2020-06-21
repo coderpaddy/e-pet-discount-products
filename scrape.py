@@ -25,6 +25,8 @@ with open(f'{collection_tag}.csv', 'w', newline='',  encoding='utf-8') as csv_fi
         product_page = session.get(search_url)
         product_name = product_page.html.find(".product-single__title", first=True).text
         product_thumbnails = product_page.html.find(".product-single__thumbnails-item")
+        o_s_m = "This item is currently out of stock"
+        stock = "Out of stock" if o_s_m in product_page.html.html else "In stock"
         new_list = []
         for x in product_thumbnails:
             new_list.append(x.find("a", first=True))
@@ -32,6 +34,7 @@ with open(f'{collection_tag}.csv', 'w', newline='',  encoding='utf-8') as csv_fi
         product_dict = {
             "name": product_name,
             "vendor": product_page.html.find(".product-single__vendor", first=True).text,
+            "stock": stock,
             "price": product_page.html.find("#ProductPrice-product-template", first=True).text,
             "description": product_page.html.find(".product_desc_trunc", first=True).text,
             "product_url": search_url,
