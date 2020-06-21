@@ -10,8 +10,11 @@ collection_tag = input("Please enter collection url tag ie. dog-food-dry: ")
 url = f"{base_url}/collections/{collection_tag}"
 
 website = session.get(url)
-total_items = website.html.search('<span class="filters-toolbar__product-count">{total_items} products</span>')['total_items']
-total_num_pages = website.html.search('<li class="pagination__text">\n    Page 1 of {total_num_pages}\n  </li>')['total_num_pages']
+total_items = website.html.find(".filters-toolbar__product-count", first=True).text.replace(" products", "")
+if int(total_items) > 40:
+    total_num_pages = website.html.search('<li class="pagination__text">\n    Page 1 of {total_num_pages}\n  </li>')['total_num_pages']
+else:
+    total_num_pages = 1    
 print(f" Pages: {total_num_pages} \t Records: {total_items}. \t Please Wait...")
 product_urls = get_product_urls(session, url, total_num_pages)
 page_count = 0
