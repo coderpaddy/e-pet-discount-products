@@ -15,7 +15,7 @@ total_num_pages = website.html.search('<li class="pagination__text">\n    Page 1
 print(f" Pages: {total_num_pages} \t Records: {total_items}. \t Please Wait...")
 product_urls = get_product_urls(session, url, total_num_pages)
 page_count = 0
-with open(f'{collection_tag}.csv', 'w', newline='') as csv_file:
+with open(f'{collection_tag}.csv', 'w', newline='',  encoding='utf-8') as csv_file:
     fieldnames = ["name", "vendor", "price", "description", "product_url", "image_urls"]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
