@@ -30,7 +30,7 @@ with open(f'{collection_tag}.csv', 'w', newline='',  encoding='utf-8') as csv_fi
         product_name = product_page.html.find(".product-single__title", first=True).text
         product_thumbnails = product_page.html.find(".product-single__thumbnails-item")
         o_s_m = "This item is currently out of stock"
-        stock = "Out of stock" if o_s_m in product_page.html.html else "In stock"
+        stock = "0" if o_s_m in product_page.html.html else "1"
         img_url = product_page.html.search('property="og:image:secure_url" content={IMG_URL}">')['IMG_URL']
         print(img_url)
         eur_url = "https://api.exchangeratesapi.io/latest"
