@@ -16,7 +16,7 @@ print(f" Pages: {total_num_pages} \t Records: {total_items}. \t Please Wait...")
 product_urls = get_product_urls(session, url, total_num_pages)
 page_count = 0
 with open(f'{collection_tag}.csv', 'w', newline='') as csv_file:
-    fieldnames = ["name", "vendor", "price", "description", "product_url", "image_urls"]
+    fieldnames = ["name", "vendor", "stock", "price", "description", "product_url", "image_urls"]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -25,6 +25,8 @@ with open(f'{collection_tag}.csv', 'w', newline='') as csv_file:
         product_page = session.get(search_url)
         product_name = product_page.html.find(".product-single__title", first=True).text
         product_thumbnails = product_page.html.find(".product-single__thumbnails-item")
+        o_s_m = "This item is currently out of stock. It will take up to 1 weeks to ship."
+        stock = "Out of stock" if o_s_m in product_page.html.html else "In stock"
         new_list = []
         for x in product_thumbnails:
             new_list.append(x.find("a", first=True))
@@ -32,6 +34,7 @@ with open(f'{collection_tag}.csv', 'w', newline='') as csv_file:
         product_dict = {
             "name": product_name,
             "vendor": product_page.html.find(".product-single__vendor", first=True).text,
+            "stock": stock,
             "price": product_page.html.find("#ProductPrice-product-template", first=True).text,
             "description": product_page.html.find(".product_desc_trunc", first=True).text,
             "product_url": search_url,
